@@ -25,16 +25,12 @@
  */
 
 
-#include <SimpleTimer.h>
-// the timer object
-SimpleTimer timer;
-
-
 // constants won't change. They're used here to 
 // set pin numbers:
 const int sensorIn = 4;     // the number of the pushbutton pin
 const int sensorOut = 2;     // the number of the pushbutton pin
-const int ledPin =  13;      // the number of the LED pin
+const int relay1 =  A0;      // the number of the LED pin
+const int relay2 =  A2;      // the number of the LED pin
 
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
@@ -65,9 +61,11 @@ void sensor(int sensor1,int sensor2){
   // if it is, the buttonState is HIGH:
   if (buttonState == LOW) {     
     // turn LED on:    
-    digitalWrite(ledPin, HIGH);  
+    digitalWrite(relay1, HIGH);  
+    digitalWrite(relay2, HIGH);  
     passingCar(sensor2);
-    digitalWrite(ledPin, LOW); 
+    digitalWrite(relay1, LOW); 
+    digitalWrite(relay2, LOW); 
   } 
 }
 
