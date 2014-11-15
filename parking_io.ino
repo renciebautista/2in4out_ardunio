@@ -30,7 +30,12 @@
 const int sensorIn = 4;     // the number of the pushbutton pin
 const int sensorOut = 2;     // the number of the pushbutton pin
 const int relay1 =  A0;      // the number of the LED pin
-const int relay2 =  A2;      // the number of the LED pin
+const int relay2 =  A1;      // the number of the LED pin
+const int relay3 =  A2;      // the number of the LED pin
+const int relay4 =  A3;      // the number of the LED pin
+
+int analogInPin = A5;    // select the input pin for the potentiometer
+int sensorValue = 0;        // value read from the pot
 
 // variables will change:
 int buttonState = 0;         // variable for reading the pushbutton status
@@ -38,7 +43,10 @@ int exitCar = LOW;
 
 void setup() {
   // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);      
+  pinMode(relay1, OUTPUT);      
+  pinMode(relay2, OUTPUT);
+  pinMode(relay3, OUTPUT);      
+  pinMode(relay4, OUTPUT);
   // initialize the pushbutton pin as an input:
   pinMode(sensorIn, INPUT);     
   pinMode(sensorOut, INPUT);    
@@ -48,6 +56,7 @@ void setup() {
 
 void loop(){
   // read the state of the pushbutton value:
+  
   sensor(sensorIn,sensorOut);
   sensor(sensorOut,sensorIn);
 }
@@ -62,10 +71,14 @@ void sensor(int sensor1,int sensor2){
   if (buttonState == LOW) {     
     // turn LED on:    
     digitalWrite(relay1, HIGH);  
-    digitalWrite(relay2, HIGH);  
+    digitalWrite(relay2, HIGH);
+    digitalWrite(relay3, HIGH);  
+    digitalWrite(relay4, HIGH);  
     passingCar(sensor2);
     digitalWrite(relay1, LOW); 
     digitalWrite(relay2, LOW); 
+    digitalWrite(relay3, LOW); 
+    digitalWrite(relay4, LOW); 
   } 
 }
 
@@ -85,7 +98,8 @@ void passingCar(int buttonPin){
   long startTime = 0;  // the last time the output pin was toggled
   startTime = millis();
   while(exitCar == LOW){
-    if ((millis() - startTime) > 10000){
+    sensorValue = analogRead(analogInPin);
+    if ((millis() - startTime) > (sensorValue * 30)){
       exitCar = HIGH;
     }
     
