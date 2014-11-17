@@ -94,12 +94,14 @@ void passingCar(int buttonPin){
   // will quickly become a bigger number than can be stored in an int.
   long lastDebounceTime = 0;  // the last time the output pin was toggled
   long debounceDelay = 50;    // the debounce time; increase if the output flickers
-  
+  long maxtimer = 300000;
+  long multiplier = 295;
   long startTime = 0;  // the last time the output pin was toggled
   startTime = millis();
   while(exitCar == LOW){
     sensorValue = analogRead(analogInPin);
-    if ((millis() - startTime) > (sensorValue * 30)){
+    maxtimer = sensorValue * multiplier;
+    if ((millis() - startTime) > maxtimer){
       exitCar = HIGH;
     }
     
